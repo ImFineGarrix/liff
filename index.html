@@ -57,6 +57,8 @@
     }
 
     async function scanCode() {
+      const scan = await liff.scanCode()
+      document.getElementById("scanCode").append(scan.value)
     }
 
     function openWindow() {
@@ -76,27 +78,27 @@
 
     async function sendMsg() {
       if (liff.getContext().type !== 'none') {
-        // await liff.sendMessages([
-        //   {
-        //     type: 'sticker',
-        //     stickerId: 1,
-        //     packageId: 1
-        //   }
-        // ])
-        // alert('Message sent')
-        await liff
-          .sendMessages([
-            {
-              type: "text",
-              text: "Hello, World!",
-            },
-          ])
-          .then(() => {
-            console.log("message sent");
-          })
-          .catch((err) => {
-            console.log("error", err);
-          });
+        await liff.sendMessages([
+          {
+            type: 'sticker',
+            stickerId: 1,
+            packageId: 1
+          }
+        ])
+        alert('Message sent')
+        // await liff
+        //   .sendMessages([
+        //     {
+        //       type: "text",
+        //       text: "Hello, World!",
+        //     },
+        //   ])
+        //   .then(() => {
+        //     console.log("message sent");
+        //   })
+        //   .catch((err) => {
+        //     console.log("error", err);
+        //   });
       }
     }
 
@@ -136,10 +138,15 @@
     async function main() {
       // alert("LINE Developers x Skooldio")
       await liff.init({ liffId: "1661334126-qAG2GVK3" })
-      getEnvironment()
-      getUserProfile()
-      getContext()
-      getFriendship()
+      document.getElementById('isLoggedIn').append(liff.isLoggedIn())
+      if (liff.isLoggedIn()) {
+        getEnvironment()
+        getUserProfile()
+        getContext()
+        getFriendship()
+      } else {
+        liff.login()
+      }
       // createUniversalLink()
     }
     main()
