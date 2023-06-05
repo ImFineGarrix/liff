@@ -60,21 +60,43 @@
     }
 
     function openWindow() {
+      liff.openWindow({
+        url: 'https://line.me',
+        external: true
+      });
     }
 
     async function getFriendship() {
+      const friend = await liff.getFriendship()
+      document.getElementById("friendship").append(friend.friendFlag)
+      // if (!friend.friendFlag) {
+        
+      // }
     }
 
     async function sendMsg() {
       if (liff.getContext().type !== 'none') {
-        await liff.sendMessages([
-          {
-            type: 'sticker',
-            stickerId: 1,
-            packageId: 1
-          }
-        ])
-        alert('Message sent')
+        // await liff.sendMessages([
+        //   {
+        //     type: 'sticker',
+        //     stickerId: 1,
+        //     packageId: 1
+        //   }
+        // ])
+        // alert('Message sent')
+        await liff
+          .sendMessages([
+            {
+              type: "text",
+              text: "Hello, World!",
+            },
+          ])
+          .then(() => {
+            console.log("message sent");
+          })
+          .catch((err) => {
+            console.log("error", err);
+          });
       }
     }
 
@@ -117,7 +139,7 @@
       getEnvironment()
       getUserProfile()
       getContext()
-      // getFriendship()
+      getFriendship()
       // createUniversalLink()
     }
     main()
